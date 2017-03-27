@@ -5,7 +5,7 @@ IF EXIST c:\program files\LAPS\CSE (
 ) ELSE (
 echo "Microsoft Local Administrator Password Solution (LAPS) not installed."
 )
-
+echo ***************************************************************************************************
 echo "Who are the Admins?????"
 SETLOCAL
 SET "admins="
@@ -15,24 +15,29 @@ FOR /f "delims=" %%A IN ('net localgroup administrators') DO (
  SET "prev=%%A"
 )
 SET admins=%admins:*- =%
-ECHO admins are "%admins%"
-
+ECHO admins: are "%admins%"
+echo ***************************************************************************************************
+echo ***************************************************************************************************
 echo "Administrator Account Status"
 net user "Administrator" |findstr "Account Active"
-
+echo ***************************************************************************************************
 echo "Pending restart"
 reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager" |findstr "PendingFileRenameOperations"
-
+echo ***************************************************************************************************
+echo ***************************************************************************************************
 echo "unquoted Path"
 
 wmic service get name,displayname,pathname,startmode |findstr /i "auto" |findstr /i /v "c:\windows\\" |findstr /i /v """
-
+echo ***************************************************************************************************
+echo ***************************************************************************************************
 Echo "list installed patched"
 wmic qfe
-
+echo ***************************************************************************************************
+echo ***************************************************************************************************
 echo "Check for AV"
 wmic product get name,version | findstr "Anti-Virus"
-
+echo ***************************************************************************************************
+echo ***************************************************************************************************
 echo "Permissions Check"
 echo Checking for Local Admin. Detecting permissions...
 
@@ -42,8 +47,11 @@ echo Checking for Local Admin. Detecting permissions...
     ) else (
         echo Failure: User is not a Local Admin.
     )
-
-
+echo ***************************************************************************************************
+echo ***************************************************************************************************
+echo "C:\ Write access check"
+echo ***************************************************************************************************
+echo ***************************************************************************************************
 echo "Wifi Test"
 setlocal EnableDelayedExpansion
 :main
@@ -70,10 +78,4 @@ setlocal EnableDelayedExpansion
         endlocal
     )
     goto :eof
-
-
-
-
-echo "unquoted Path"
-
-wmic service get name,displayname,pathname,startmode |findstr /i "auto" |findstr /i /v "c:\windows\\" |findstr /i /v """
+echo ***************************************************************************************************
