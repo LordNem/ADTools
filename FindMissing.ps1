@@ -34,7 +34,7 @@ Write-host "Enter Selection" -fo red
 "
 do {
 $choice = Read-Host "
-Query Options: (1-4)"
+Query Options: (1-3)"
 } until ($Choice -in ("1","2","3","4"))
 if ($choice -eq "1") {$Quest = "Affected_Product"}
 if ($choice -eq "2") {$Quest = "Bulletin_KB"}
@@ -55,6 +55,6 @@ Write-host "====================================================================
 
 $OutFile = $SupMis | Where-Object {$_.$Quest -like '*'+$KBPrompt +'*'} | Select-Object Supersedes | Sort-Object supersedes -Unique | Format-List -Property *
 $outfile
-$Note = "The following is a list of patches that have been superseded by " + $KBPrompt | Out-File Superseded.txt
+$Note = "A List of superseded patches based on search term : " + $KBPrompt | Out-File Superseded.txt
 $OutFile | Out-File Superseded.txt -Append
 Pause
