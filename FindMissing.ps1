@@ -31,7 +31,6 @@ Write-host "Enter Selection" -fo red
 1. Collate list of all OS Patches
 2. Lookup KB Number (KBxxxxxxx)
 3. Check Bullentin Number (MSxx-xxx)
-4. Superseded Patches (Not Live)
 "
 do {
 $choice = Read-Host "
@@ -40,7 +39,6 @@ Query Options: (1-4)"
 if ($choice -eq "1") {$Quest = "Affected_Product"}
 if ($choice -eq "2") {$Quest = "Bulletin_KB"}
 if ($choice -eq "3") {$Quest = "Bulletin_Id"}
-if ($choice -eq "4") {$Quest = "Supersedes"}
 $choice = $null
 
 
@@ -49,14 +47,13 @@ $SupMis = Import-Csv $cwd\$filename.csv -header Date_Posted,Bulletin_Id,Bulletin
 
 $SupMis 
 
-
 Write-host "Compiling a list of Superseded Patches....." -fo Green
 Write-host "==========================================================================" -fo Blue
 Write-host "The following is a list of patches that have been superseded by " -fo Green
 Write-host "                           "$KBPrompt -fo red
 Write-host "==========================================================================" -fo Blue
 
-$OutFile = $SupMis | Where-Object {$_.$Quest -like '*'+$KBPrompt +'*'} | Select-Object Bulletin_ID,Bulletin_KB,Supersedes | Sort-Object Supersedes | Format-List -Property *
+$OutFile = $SupMis | Where-Object {$_.$Quest -like '*'+$KBPrompt +'*'} | Select-Object Supersedes | Sort-Object supersedes -Unique | Format-List -Property *
 $outfile
 $Note = "The following is a list of patches that have been superseded by " + $KBPrompt | Out-File Superseded.txt
 $OutFile | Out-File Superseded.txt -Append
